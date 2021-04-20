@@ -47,6 +47,16 @@ class UserService
         $user->delete();
         return response()->json(['data'=>$user],200);
     }
+
+    public function getUserHasMostBlogs()
+    {
+       return $user = User::withCount('blogs')->orderBy('blogs_count','desc')->first();
+    }
+
+    public function getUserHasLeastBlogs()
+    {
+        return $user = User::withCount('blogs')->orderBy('blogs_count','asc')->first();
+    }
 }
 
 

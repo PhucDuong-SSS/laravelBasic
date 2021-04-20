@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogCreateRequest;
+use App\Http\Requests\BlogUpdateRequest;
 use App\Http\Services\BlogService;
 use Illuminate\Http\Request;
 
@@ -39,7 +41,7 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogCreateRequest $request)
     {
         return $this->blogService->store($request);
     }
@@ -73,7 +75,7 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogUpdateRequest $request, $id)
     {
         return $this->blogService->update($request, $id);
     }

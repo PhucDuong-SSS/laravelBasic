@@ -30,3 +30,6 @@ Route::resource('blogs', BlogController::class)->only([
     'index', 'store', 'update', 'destroy'
 ]);
 
+Route::get('most',[UserController::class,'getUserHasMostBlogs']);
+Route::get('least',[UserController::class,'getUserHasLeastBlogs']);
+

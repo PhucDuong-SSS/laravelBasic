@@ -88,4 +88,24 @@ class UserController extends Controller
     {
         return $this->userService->delete($id);
     }
+    /**
+     * Get the user has the most blogs
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserHasMostBlogs()
+    {
+        return $this->userService->getUserHasMostBlogs();
+    }
+
+    /**
+     * Get the user has the most blogs
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserHasLeastBlogs()
+    {
+        return $this->userService->getUserHasLeastBlogs();
+    }
+
 }

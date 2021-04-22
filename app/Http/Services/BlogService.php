@@ -13,8 +13,8 @@ class BlogService
 
     public function getAllBlog()
     {
-        $userBlog =  $this->blogModel->all();
-        return response()->json(['data'=>$userBlog,],200);
+        $blogs =  $this->blogModel->all();
+        return $blogs;
     }
 
     public function store($request)
@@ -24,7 +24,7 @@ class BlogService
         $blog->content = $request->content;
         $blog->user_id = $request->user_id;
         $blog->save();
-        return response()->json(['data'=>$blog],201);
+        return $blog;
     }
 
     public function update($request, $id)
@@ -41,14 +41,14 @@ class BlogService
             $blog->user_id = $request->user_id;
         }
         $blog->save();
-        return response()->json(['data'=>$blog],200);
+        return $blog;
     }
 
     public function delete($id)
     {
         $blog = $this->blogModel->findOrFail($id);
         $blog->delete();
-        return response()->json(['data'=>$blog],200);
+        return $blog;
     }
 }
 

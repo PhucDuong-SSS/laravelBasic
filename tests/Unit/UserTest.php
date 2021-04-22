@@ -5,10 +5,12 @@ namespace Tests\Unit;
 use App\Http\Controllers\UserController;
 use App\Models\Blog;
 use App\Models\User;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Mockery;
+use Mockery\MockInterface;
 use App\Http\Services\UserService;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 
 
@@ -17,70 +19,80 @@ class UserTest extends TestCase
 
     public function testGetAllUsers()
     {
-        $userService = Mockery::mock(UserService::class);
-        $user= new UserController($userService);
-        $userService->shouldReceive('getAllUser')
-            ->andReturn([]);
-        $actual = $user->index();
+        $users = User::all();
+        $mock = $this->partialMock(UserService::class, function (MockInterface $mock) use($users) {
+            $mock->shouldReceive('getAllUser')->andReturn($users);
+        });
 
-        $this->assertSame([], $actual);
+        $userController = new UserController($mock);
+        $actual = $userController->index();
+        $this->assertInstanceOf(JsonResponse::class, $actual);
+        $this->assertEquals($actual->getStatusCode(),200);
     }
 
     public function testDeletelUsers()
     {
-        $userService = Mockery::mock(UserService::class);
-        $user= new UserController($userService);
-        $userService->shouldReceive('delete')
-            ->withArgs([1])
-            ->andReturn(true);
-        $actual = $user->destroy(1);
+        $user= User::findOrFail(1);
+        $mock = $this->partialMock(UserService::class, function (MockInterface $mock) use($user) {
+            $mock->shouldReceive('delete')->andReturn($user);
+        });
 
-        $this->assertEquals(true, $actual);
+        $userController = new UserController($mock);
+
+        $actual = $userController->destroy(1);
+
+        $this->assertInstanceOf(JsonResponse::class, $actual);
+        $this->assertEquals($actual->getStatusCode(),200);
     }
 
     public function testStoreUsers()
     {
-        $userService = Mockery::mock(UserService::class);
-        $user= new UserController($userService);
-        $userService->shouldReceive('store')
-            ->andReturn(true);
-        $actual = $userService->store(['user_name'=>'phuc','email'=>'phuc@gmail.com']);
-
-        $this->assertEquals(true, $actual);
+        $user= [];
+        $mock = $this->partialMock(UserService::class, function (MockInterface $mock) use($user) {
+            $mock->shouldReceive('store')->andReturn($user);
+        });
+        $userController = new UserController($mock);
+        $request = new  \App\Http\Requests\UserCreateRequest;
+        $request->user_name = 'Phuc';
+        $request->email = 'f23423@gmail.com';
+        $actual = $userController->store($request);
+        $this->assertInstanceOf(JsonResponse::class, $actual);
+        $this->assertEquals($actual->getStatusCode(),201);
     }
     public function testUpdateUsers()
     {
-        $userService = Mockery::mock(UserService::class);
-
-        $userService->shouldReceive('update')
-            ->andReturn(true);
-        $user= new UserController($userService);
-        $actual = $userService->update(['user_name'=>'phuc','email'=>'phuc@gmail.com'],1);
-
-        $this->assertEquals(true, $actual);
+        $user= User::findOrFail(1);
+        $mock = $this->partialMock(UserService::class, function (MockInterface $mock) use($user) {
+            $mock->shouldReceive('update')->andReturn($user);
+        });
+        $userController = new UserController($mock);
+        $request = new  \App\Http\Requests\UserUpdateRequest;
+        $request->user_name = 'Phuc';
+        $request->email = '1@gmail.com';
+        $actual = $userController->update($request,1);
+        $this->assertInstanceOf(JsonResponse::class, $actual);
+        $this->assertEquals($actual->getStatusCode(),200);
     }
     public function testGetUserHasMostBlogs()
     {
-        $userService = Mockery::mock(UserService::class);
-
-        $userService->shouldReceive('getUserHasMostBlogs')
-            ->andReturn(true);
-        $user= new UserController($userService);
-        $actual = $user->getUserHasMostBlogs();
-
-        $this->assertEquals(true, $actual);
+        $user= User::findOrFail(1);
+        $mock = $this->partialMock(UserService::class, function (MockInterface $mock) use($user) {
+            $mock->shouldReceive('getUserHasMostBlogs')->andReturn($user);
+        });
+        $userController = new UserController($mock);
+        $actual = $userController->getUserHasMostBlogs();
+        $this->assertInstanceOf(JsonResponse::class, $actual);
+        $this->assertEquals($actual->getStatusCode(),200);
     }
     public function testGetUserHasLeastBlogs()
     {
-        $userService = Mockery::mock(UserService::class);
-
-        $userService->shouldReceive('getUserHasLeastBlogs')
-            ->andReturn(true);
-        $user= new UserController($userService);
-        $actual = $user->getUserHasLeastBlogs();
-
-        $this->assertEquals(true, $actual);
+        $user= User::findOrFail(1);
+        $mock = $this->partialMock(UserService::class, function (MockInterface $mock) use($user) {
+            $mock->shouldReceive('getUserHasLeastBlogs')->andReturn($user);
+        });
+        $userController = new UserController($mock);
+        $actual = $userController->getUserHasLeastBlogs();
+        $this->assertInstanceOf(JsonResponse::class, $actual);
+        $this->assertEquals($actual->getStatusCode(),200);
     }
-
-
 }

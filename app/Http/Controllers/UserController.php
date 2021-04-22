@@ -20,7 +20,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->userService->getAllUser();
+        $userList = $this->userService->getAllUser();
+        return response()->json(['data'=>$userList,],200);
+
     }
 
     /**
@@ -41,7 +43,8 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        return $this->userService->store($request);
+        $user= $this->userService->store($request);
+        return response()->json(['data'=>$user],201);
     }
 
     /**
@@ -75,7 +78,8 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        return $this->userService->update($request, $id);
+        $user = $this->userService->update($request, $id);
+        return response()->json(['data'=>$user],200);
     }
 
     /**
@@ -86,7 +90,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return $this->userService->delete($id);
+         $user = $this->userService->delete($id);
+         return response()->json(['data'=>$user],200);
     }
     /**
      * Get the user has the most blogs
@@ -95,7 +100,8 @@ class UserController extends Controller
      */
     public function getUserHasMostBlogs()
     {
-        return $this->userService->getUserHasMostBlogs();
+        $user = $this->userService->getUserHasMostBlogs();
+        return response()->json(['data'=>$user],200);
     }
 
     /**
@@ -105,7 +111,8 @@ class UserController extends Controller
      */
     public function getUserHasLeastBlogs()
     {
-        return $this->userService->getUserHasLeastBlogs();
+        $user = $this->userService->getUserHasLeastBlogs();
+        return response()->json(['data'=>$user],200);
     }
 
 }

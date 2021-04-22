@@ -22,7 +22,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return $this->blogService->getAllBlog();
+        $blogs = $this->blogService->getAllBlog();
+        return response()->json(['data'=>$blogs,],200);
     }
 
     /**
@@ -43,7 +44,8 @@ class BlogController extends Controller
      */
     public function store(BlogCreateRequest $request)
     {
-        return $this->blogService->store($request);
+        $blog = $this->blogService->store($request);
+        return response()->json(['data'=>$blog],201);
     }
 
     /**
@@ -77,7 +79,8 @@ class BlogController extends Controller
      */
     public function update(BlogUpdateRequest $request, $id)
     {
-        return $this->blogService->update($request, $id);
+        $blog = $this->blogService->update($request, $id);
+        return response()->json(['data'=>$blog],200);
     }
 
     /**
@@ -88,6 +91,7 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        return $this->blogService->delete($id);
+        $blog = $this->blogService->delete($id);
+        return response()->json(['data'=>$blog],200);
     }
 }

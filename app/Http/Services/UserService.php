@@ -14,8 +14,7 @@ class UserService
 
     public function getAllUser()
     {
-        $userList =  $this->userModel->all();
-        return response()->json(['data'=>$userList,],200);
+        return  $userList =  $this->userModel->all();
     }
 
     public function store($request)
@@ -24,7 +23,7 @@ class UserService
        $user->user_name = $request->user_name;
        $user->email = $request->email;
        $user->save();
-       return response()->json(['data'=>$user],201);
+       return $user;
     }
 
     public function update($request, $id)
@@ -38,14 +37,15 @@ class UserService
         $user->email = $request->email;
     }
         $user->save();
-        return response()->json(['data'=>$user],200);
+        return $user;
     }
 
     public function delete($id)
     {
         $user = $this->userModel->findOrFail($id);
         $user->delete();
-        return response()->json(['data'=>$user],200);
+        return $user;
+
     }
 
     public function getUserHasMostBlogs()

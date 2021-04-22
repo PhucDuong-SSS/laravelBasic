@@ -3,13 +3,10 @@
 namespace Tests\Unit;
 
 use App\Http\Controllers\UserController;
-use App\Models\Blog;
 use App\Models\User;
 use Tests\TestCase;
-use Mockery;
 use Mockery\MockInterface;
 use App\Http\Services\UserService;
-use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 
 
